@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Vue Js POCß</title>
+</head>
+
+<body>
+    <div id="app">
+        <parent-component title="Hello from parent component to child component">
+            <child-component></child-component>
+        </parent-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--Axios for HTTP Calls-->
+    <script>
+        Vue.component('parent-component', {
+            props: ['title'],
+            data() {
+                return {
+                    todos: this.title
+                }
+            },
+            provide() {
+                return {
+                    todoLength: this.todos
+                }
+            },
+            template: '<div></slot> <slot></slot></div>',
+
+        });
+        Vue.component('child-component', {
+            inject: ['todoLength'],
+            template: '<div>{{this.todoLength}} </div>'
+        });
+        var APP = new Vue({
+            el: '#app',
+            data: {
+                message: 'You loaded this page on ' + new Date().toLocaleString()
+            },
+            component: ['header-component', 'child-component']
+        });
+    </script>
+</body>
+
+</html>
